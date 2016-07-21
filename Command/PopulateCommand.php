@@ -113,6 +113,14 @@ class PopulateCommand extends ContainerAwareCommand
 
         if (null !== $index) {
             if (null !== $type) {
+                if($reset){
+                    /** @var DialogHelper $dialog */
+                    $dialog = $this->getHelperSet()->get('dialog');
+                    if (!$dialog->askConfirmation($output, '<question>This will reset ALL types in the index. Do you really want to do that? Use no-reset to append to the type</question>', false)) {
+                        return;
+                    }
+                }
+
                 $this->populateIndexType($output, $index, $type, $reset, $options);
             } else {
                 $this->populateIndex($output, $index, $reset, $options);
